@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: Httpbin
+  name: Httpbin
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: Httpbin
+  template:
+    metadata:
+      labels:
+        app: Httpbin
+    spec:
+      containers:
+      - image: kennethreitz/httpbin
+        name: httpbin
+        ports:
+        - containerPort: 80

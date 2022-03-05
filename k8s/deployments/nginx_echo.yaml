@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: NginxEcho
+  name: NginxEcho
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: NginxEcho
+  template:
+    metadata:
+      labels:
+        app: NginxEcho
+    spec:
+      containers:
+      - image: rteller/nginx_echo
+        name: echo
+        ports:
+        - containerPort: 8200

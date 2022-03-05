@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: NginxEcho
-  name: NginxEcho
+    app: nginx-echo
+  name: nginx-echo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: NginxEcho
+      app: nginx-echo
   template:
     metadata:
       labels:
-        app: NginxEcho
+        app: nginx-echo
     spec:
       containers:
       - image: rteller/nginx_echo

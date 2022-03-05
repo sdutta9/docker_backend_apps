@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: Httpbin
-  name: Httpbin
+    app: httpbin
+  name: httpbin
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: Httpbin
+      app: httpbin
   template:
     metadata:
       labels:
-        app: Httpbin
+        app: httpbin
     spec:
       containers:
       - image: kennethreitz/httpbin

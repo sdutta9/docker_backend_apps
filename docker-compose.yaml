@@ -1,6 +1,7 @@
 "httpbin1":
   container_name: httpbin
   image: kennethreitz/httpbin
+  restart: always
   ports:
     - "3001:80"
     - "3002:80"

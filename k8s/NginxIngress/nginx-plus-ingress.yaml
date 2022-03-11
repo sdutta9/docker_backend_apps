@@ -38,8 +38,6 @@ spec:
         #     path: /nginx-ready
         #     port: readiness-port
         #   periodSeconds: 1
-        imagePullSecrets:
-          - name: dockersecret
         securityContext:
           allowPrivilegeEscalation: true
           runAsUser: 101 #nginx
@@ -71,3 +69,5 @@ spec:
           - -enable-prometheus-metrics #uncommented
           - -enable-latency-metrics #added
          #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
+      imagePullSecrets:
+          - name: dockersecret

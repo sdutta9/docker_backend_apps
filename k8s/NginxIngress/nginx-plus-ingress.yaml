@@ -68,6 +68,7 @@ spec:
          #- -external-service=nginx-ingress
           - -enable-prometheus-metrics #uncommented
           - -enable-latency-metrics #added
+          - -enable-preview-policies
          #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
       imagePullSecrets:
           - name: dockersecret

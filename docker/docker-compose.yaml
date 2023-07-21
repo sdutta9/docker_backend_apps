@@ -1,21 +1,22 @@
-"httpbin1":
-  container_name: httpbin
-  image: kennethreitz/httpbin
-  restart: always
-  ports:
-    - "3001:80"
-    - "3002:80"
-
-"nginx_echo":
-  container_name: nginx_echo
-  image: rteller/nginx_echo
-  restart: always
-  ports:
-    - "8200-8225:8200-8225"
-juice1:
-  container_name: juice1
-  hostname: juiceserver1
-  image: bkimminich/juice-shop
-  restart: always
-  ports:
-    - "3000:3000"
+services:
+  "httpbin1":
+    container_name: httpbin
+    image: kennethreitz/httpbin
+    restart: always
+    ports:
+      - "3001:80"
+      - "3002:80"
+  
+  "nginx_echo":
+    container_name: nginx_echo
+    image: rteller/nginx_echo
+    restart: always
+    ports:
+      - "8200-8225:8200-8225"
+  juice1:
+    container_name: juice1
+    hostname: juiceserver1
+    image: bkimminich/juice-shop
+    restart: always
+    ports:
+      - "3000:3000"

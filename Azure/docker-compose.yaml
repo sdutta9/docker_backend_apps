@@ -15,6 +15,14 @@ services:
     ports:
       - "80:5000"
 
+  vampi2:
+    container_name: vampi2
+    hostname: vampi_server2
+    image: erev0s/vampi
+    restart: always
+    ports:
+      - "8080:5000"
+
   juiceshop:
     container_name: juiceshop
     hostname: juiceshop_server1

@@ -2,7 +2,8 @@ services:
   nginx:
     container_name: nginx
     hostname: nginx
-    image: nginx:mainline-bookworm
+    image: private-registry.nginx.com/nginx-plus/base:r34-debian-bookworm
+    # image: nginx:mainline-bookworm
     # build: nginx          # Build new container, using /nginx/Dockerfile
     volumes:
         - ./nginx/conf.d:/etc/nginx/conf.d            # Copy all config files to container's conf.d directory

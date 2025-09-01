@@ -95,6 +95,13 @@
 
     ```bash
     export MY_ID=`az group show -n $MY_RG --query "id" -otsv`
+    export MY_JWT=$(cat Azure/nginx/ssl/nginx-plus.jwt)
+    ```
+
+1. Make sure all environment variables are set properly
+
+    ```bash
+    set | grep MY_
     ```
 
 1. Create VM referencing the `init.sh` script present in the Azure directory within this repo.
@@ -122,6 +129,24 @@
     --nsg-name my-ubuntuvmNSG \
     --name default-allow-ssh \
     --source-address-prefix $MY_PUBLICIP
+    ```
+
+    ```bash
+    ## Rule 1 for HTTP traffic (Allow any IP to access port 80)
+
+    az network nsg rule create \
+    --resource-group $MY_RG \
+    --nsg-name my-ubuntuvmNSG \
+    --name HTTP \
+    --priority 320 \
+    --source-address-prefix '*' \
+    --source-port-range '*' \
+    --destination-address-prefix '*' \
+    --destination-port-range 80 \
+    --direction Inbound \
+    --access Allow \
+    --protocol Tcp \
+    --description "Allow HTTP traffic"
     ```
 
 1. To login to the vm type below command

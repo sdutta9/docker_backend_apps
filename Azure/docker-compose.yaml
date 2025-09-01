@@ -1,6 +1,19 @@
 services:
-  "httpbin1":
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    image: nginx:mainline-bookworm
+    # build: nginx          # Build new container, using /nginx/Dockerfile
+    volumes:
+        - ./nginx/conf.d:/etc/nginx/conf.d            # Copy all config files to container's conf.d directory
+    restart: always
+    ports:
+      - "80:80"
+    
+
+  httpbin1:
     container_name: httpbin
+    hostname: httpbin_server1
     image: kennethreitz/httpbin
     restart: always
     ports:
@@ -13,7 +26,7 @@ services:
     image: erev0s/vampi
     restart: always
     ports:
-      - "80:5000"
+      - "5000:5000"
 
   vampi2:
     container_name: vampi2
@@ -21,7 +34,7 @@ services:
     image: erev0s/vampi
     restart: always
     ports:
-      - "8080:5000"
+      - "5001:5000"
 
   juiceshop:
     container_name: juiceshop

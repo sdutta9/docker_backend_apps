@@ -6,7 +6,8 @@ services:
     # image: nginx:mainline-bookworm
     # build: nginx          # Build new container, using /nginx/Dockerfile
     volumes:
-        - ./nginx/conf.d:/etc/nginx/conf.d            # Copy all config files to container's conf.d directory
+        - ./nginx/conf.d:/etc/nginx/conf.d                    # Copy all config files to container's conf.d directory
+        - ./nginx/ssl/nginx-plus.jwt:/etc/nginx/license.jwt   # Copy JWT Token from parent folder to container to fulfill licensing requirement
     restart: always
     ports:
       - "80:80"

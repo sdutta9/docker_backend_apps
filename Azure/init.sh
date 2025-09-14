@@ -19,8 +19,7 @@ mkdir -p backend/nginx/ssl
 
 # Download nginx config file
 cd backend/nginx/conf.d
-wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/httpbin.shouvik.dev.conf
-wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/juice.shouvik.dev.conf
+wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/juiceshop.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/vampi.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/upstreams.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/dashboard.conf
@@ -30,7 +29,7 @@ cd ../..
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/docker-compose.yaml
 
 # Login to private registry to fetch the nginx container
-sudo docker login private-registry.nginx.com --username=$MY_JWT --password=none
+# sudo docker login private-registry.nginx.com --username=$MY_JWT --password=none
 
 # Run docker compose to create the containers
-sudo docker-compose up -d
+# sudo docker-compose up -d

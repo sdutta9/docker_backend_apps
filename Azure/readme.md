@@ -9,8 +9,8 @@
 1. Set your environment variables
 
     ```bash
-    export MY_RG=sd-backendvm
-    export MY_LOC=westus3
+    export MY_RG=sd-cflare
+    export MY_LOC=northcentralus 
     export MY_PUBLICIP=$(curl ipinfo.io/ip)
     ```
 
@@ -111,7 +111,7 @@
     --resource-group $MY_RG \
     --name my-ubuntuvm \
     --image Canonical:0001-com-ubuntu-server-jammy:22_04-lts:latest \
-    --size Standard_B1s \
+    --size Standard_B2s \
     --admin-username azureuser \
     --vnet-name my-vnet \
     --subnet vm-subnet \

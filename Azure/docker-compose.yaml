@@ -13,15 +13,6 @@ services:
       - "80:80"
       - "8080:8080"
 
-  httpbin1:
-    container_name: httpbin
-    hostname: httpbin_server1
-    image: kennethreitz/httpbin
-    restart: always
-    ports:
-      - "3001:80"
-      - "3002:80"
-
   vampi:
     container_name: vampi
     hostname: vampi_server1
@@ -29,14 +20,6 @@ services:
     restart: always
     ports:
       - "5000:5000"
-
-  vampi2:
-    container_name: vampi2
-    hostname: vampi_server2
-    image: erev0s/vampi
-    restart: always
-    ports:
-      - "5001:5000"
 
   juiceshop:
     container_name: juiceshop

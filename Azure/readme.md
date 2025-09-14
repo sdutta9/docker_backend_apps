@@ -157,3 +157,23 @@
     #eg
     ssh azureuser@11.22.33.44
     ```
+
+1. Login to private registry to fetch the nginx container
+
+    ```bash
+    sudo docker login private-registry.nginx.com --username=$MY_JWT --password=none
+    ```
+
+1. Make sure to create `/backend/nginx/ssl/nginx-plus.jwt` file with your JWT token as its content before running docker compose up.
+
+1. Run docker compose to create the containers
+
+    ```bash
+    cd /backend
+    sudo docker-compose up -d
+    ```
+
+1. Test out from within the vm if the urls are all working
+
+    ```bash
+    curl http://localhost -H 'HOST:dashboard.shouvik.dev'

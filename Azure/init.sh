@@ -20,7 +20,8 @@ mkdir -p backend/nginx/ssl
 # Download nginx config file
 cd backend/nginx/conf.d
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/juiceshop.shouvik.dev.conf
-wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/vampi.shouvik.dev.conf
+wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/insecure-api.shouvik.dev.conf
+wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/secure-api.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/upstreams.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/Azure/nginx/conf.d/dashboard.conf
 

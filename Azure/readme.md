@@ -177,3 +177,8 @@
 
     ```bash
     curl http://localhost -H 'HOST:dashboard.shouvik.dev'
+    curl http://localhost -H 'HOST:insecure-api.shouvik.dev'
+    curl http://localhost -H 'HOST:secure-api.shouvik.dev'
+    curl http://localhost -H 'HOST:insecure-web.shouvik.dev'
+    curl http://localhost -H 'HOST:secure-web.shouvik.dev'
+    ```

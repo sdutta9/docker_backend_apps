@@ -1,0 +1,36 @@
+services:
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    image: nginx:mainline-bookworm
+    volumes:
+        - ./nginx/conf.d:/etc/nginx/conf.d                    # Copy all config files to container's conf.d directory
+    restart: always
+    ports:
+      - "80:80"
+
+  vampi:
+    container_name: vampi
+    hostname: vampi_server1
+    image: erev0s/vampi
+    environment:
+      - tokentimetolive=300
+    restart: always
+    ports:
+      - "5000:5000"
+
+  juiceshop:
+    container_name: juiceshop
+    hostname: juiceshop_server1
+    image: bkimminich/juice-shop
+    restart: always
+    ports:
+      - "3000:3000"
+
+  httpbin:
+    container_name: httpbin
+    hostname: httpbin_server1
+    image: kennethreitz/httpbin
+    restart: always
+    ports:
+      - "2000:80"

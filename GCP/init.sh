@@ -23,6 +23,7 @@ wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/ngin
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/secure-web.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/insecure-api.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/secure-api.shouvik.dev.conf
+wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/api.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/upstreams.conf
 
 # Download docker compose file

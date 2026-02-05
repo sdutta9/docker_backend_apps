@@ -4,10 +4,12 @@ services:
     hostname: nginx
     image: nginx:mainline-bookworm
     volumes:
-        - ./nginx/conf.d:/etc/nginx/conf.d                    # Copy all config files to container's conf.d directory
+        - ./nginx/conf.d:/etc/nginx/conf.d     # Copy all config files to container's conf.d directory
+        - /etc/ssl/CF-certs:/etc/ssl
     restart: always
     ports:
       - "80:80"
+      - "443:443"
 
   vampi:
     container_name: vampi

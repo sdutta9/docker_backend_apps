@@ -1,0 +1,15 @@
+[Unit]
+Description=Triple WAF load generation Service
+After=network.target
+
+[Service]
+Type=simple
+User=shouvik
+# This ensures the script looks for waf_paths.lua in the right place
+WorkingDirectory=/home/shouvik/script
+ExecStart=/home/shouvik/script/waf_run_all.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

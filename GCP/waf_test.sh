@@ -21,14 +21,17 @@ declare -A payloads
 
 
 payloads[0]="/get?id=1'%20OR%20'1'='1"                                  # A03:Injection (SQLi)
-payloads["A03:Injection (NoSQL)"]="/basic-auth?user[\$ne]=null"         # A03:Injection (NoSQL)
+# payloads["A03:Injection (NoSQL)"]="/basic-auth?user[\$ne]=null"       # A03:Injection (NoSQL)
 # payloads["A01:Broken Access Control"]="/admin/config.php"             # A01:Broken Access Control
 payloads[1]="/base64?name\=\%3Cscript\%3Ealert\(1\)\%3C/script\%3E"     # A03:XSS
 payloads[2]="/anything?url=http://169.254.169.254/latest/meta-data/"    # A10:SSRF
 payloads[3]="/$%7Bpwd%7D/serverless.yaml"                                   # likely attack
 payloads[4]="/flasgger_static/swagger-ui.css"
-payloads[5]="/image/jpeg"
-payloads[6]="/html"
+payloads[5]="/flasgger_static/lib/jquery.min.js"
+payloads[6]="/image/jpeg"
+payloads[7]="/gzip"
+payloads[8]="/headers"
+payloads[9]="/"
 
 echo "----------------------------------------------------"
 echo " WAF Demo running against: $TARGET_URL"

@@ -15,6 +15,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 # Create a all needed directories
 cd $HOME
 mkdir -p backend/nginx/conf.d
+mkdir -p /etc/ssl/CF-certs
 
 
 # Download nginx config file
@@ -25,6 +26,8 @@ wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/ngin
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/secure-api.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/api.shouvik.dev.conf
 wget https://raw.githubusercontent.com/sdutta9/docker_backend_apps/main/GCP/nginx/conf.d/upstreams.conf
+
+# Copy certs 
 
 # Download docker compose file
 cd ../..

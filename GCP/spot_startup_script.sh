@@ -13,7 +13,6 @@ done
 
 # 1. Install all dependencies
 apt-get update
-apt-get install -y build-essential libssl-dev git unzip liblua5.1-0-dev
 
 # 2. Setup user and directory
 USER_NAME="shouvik"
@@ -21,49 +20,75 @@ mkdir -p /home/$USER_NAME/script
 mkdir -p /var/log/wrk
 chown -R $USER_NAME:$USER_NAME /home/$USER_NAME/script /var/log/wrk
 
-# 3. Build wrk from source if not present
-if [ ! -f /usr/local/bin/wrk ]; then
-    cd /home/$USER_NAME/
-    git clone https://github.com/wg/wrk.git wrk
-    cd wrk
-    sudo make
-    cp wrk /usr/local/bin
-fi
 
-# 4. Create the Lua path file
-cat <<EOF > /home/$USER_NAME/script/waf_paths.lua
-local paths = {
-  "/", "/get?id=1'%20OR%20'1'='1", "/base64?name=<script>alert(1)</script>",
-  "/anything?url=http://169.254.169.254/latest/meta-data/", "/headers"
-}
-math.randomseed(os.time())
-request = function()
-  return wrk.format("GET", paths[math.random(#paths)])
-end
-EOF
-
-# 5. Create the inner test script
-cat <<EOF > /home/$USER_NAME/script/waf_test_wrk.sh
+# 3. Create the inner test script
+cat <<EOF > /home/$USER_NAME/script/waf_test.sh
 #!/bin/bash
 TARGET_URL=\$1
 DURATION=\$2
-wrk -t2 -c10 -d\$DURATION -s /home/$USER_NAME/script/waf_paths.lua "\$TARGET_URL"
+
+# Calculate end time in seconds
+END_TIME=$(( $(date +%s) + $(date -d "$DURATION" +%s -u 2>/dev/null || echo $(( ${DURATION%h} * 3600 )) ) ))
+
+# Define the "attacks"
+declare -A payloads
+
+payloads[0]="/get?id=1'%20OR%20'1'='1"                                  # A03:Injection (SQLi)
+# payloads["A03:Injection (NoSQL)"]="/basic-auth?user[\$ne]=null"       # A03:Injection (NoSQL)
+# payloads["A01:Broken Access Control"]="/admin/config.php"             # A01:Broken Access Control
+payloads[1]="/base64?name\=\%3Cscript\%3Ealert\(1\)\%3C/script\%3E"     # A03:XSS
+payloads[2]="/anything?url=http://169.254.169.254/latest/meta-data/"    # A10:SSRF
+payloads[3]="/$%7Bpwd%7D/serverless.yaml"                                   # likely attack
+payloads[4]="/flasgger_static/swagger-ui.css"
+payloads[5]="/flasgger_static/lib/jquery.min.js"
+payloads[6]="/image/jpeg"
+payloads[7]="/gzip"
+payloads[8]="/headers"
+payloads[9]="/"
+
+echo "----------------------------------------------------"
+echo " WAF Demo running against: $TARGET_URL"
+echo " Duration: $DURATION (Ends at $(date -d @$END_TIME))"
+echo "----------------------------------------------------"
+
+
+while [ $(date +%s) -lt $END_TIME ]; do
+    for attack in "${!payloads[@]}"; do
+        path=${payloads[$attack]}
+        full_url="${TARGET_URL}${path}"
+
+        # -s: Silent, -o: discard body, -w: return status code
+        status=$(curl -s -o /dev/null -w "%{http_code}" -A "Mozilla/5.0" "$full_url")
+
+        # if [ "$status" == "403" ]; then
+        #     echo "$(date +%H:%M:%S) [BLOCKED] $full_url"
+        # else
+        #     echo "$(date +%H:%M:%S) [ALLOWED] $full_url (Status: $status)"
+        # fi
+        
+        # Short sleep to prevent hitting rate limits on your own machine
+        sleep 2
+    done
+done
+
+echo "Demo duration reached. Exiting."
 EOF
 
-# 6. Create the master runner script
+# 4. Create the master runner script
 cat <<EOF > /home/$USER_NAME/script/waf_run_all.sh
 #!/bin/bash
-/home/$USER_NAME/script/waf_test_wrk.sh https://secure-api.shouvik.dev 1h >> /var/log/wrk/instance1.log 2>&1 &
-/home/$USER_NAME/script/waf_test_wrk.sh https://api.shouvik.dev 1h >> /var/log/wrk/instance2.log 2>&1 &
-/home/$USER_NAME/script/waf_test_wrk.sh https://insecure-api.shouvik.dev 1h >> /var/log/wrk/instance3.log 2>&1 &
+/home/$USER_NAME/script/waf_test.sh https://secure-api.shouvik.dev 1 >> /var/log/wrk/instance1.log 2>&1 &
+/home/$USER_NAME/script/waf_test.sh https://api.shouvik.dev 1 >> /var/log/wrk/instance2.log 2>&1 &
+/home/$USER_NAME/script/waf_test.sh https://insecure-api.shouvik.dev 1 >> /var/log/wrk/instance3.log 2>&1 &
+/home/$USER_NAME/script/waf_test.sh https://httpbin.shouvik.us 1 >> /var/log/wrk/instance4.log 2>&1 &
 wait
 EOF
 
-# 7. Set permissions
+# 5. Set permissions
 chmod +x /home/$USER_NAME/script/*.sh
 chown -R $USER_NAME:$USER_NAME /home/$USER_NAME/script
 
-# 8. Create and Start Systemd Service
+# 6. Create and Start Systemd Service
 cat <<EOF > /etc/systemd/system/waf_load_gen.service
 [Unit]
 Description=Triple WAF load generation Service

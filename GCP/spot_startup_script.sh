@@ -22,10 +22,10 @@ chown -R $USER_NAME:$USER_NAME /home/$USER_NAME/script /var/log/wrk
 
 
 # 3. Create the inner test script
-cat <<EOF > /home/$USER_NAME/script/waf_test.sh
+cat <<'EOF' > /home/$USER_NAME/script/waf_test.sh
 #!/bin/bash
-TARGET_URL=\$1
-DURATION=\$2
+TARGET_URL=${1:-"https://your-domain.com"}
+DURATION=${2:-"2h"}
 
 # Calculate end time in seconds
 END_TIME=$(( $(date +%s) + $(date -d "$DURATION" +%s -u 2>/dev/null || echo $(( ${DURATION%h} * 3600 )) ) ))
@@ -48,11 +48,12 @@ payloads[9]="/"
 
 echo "----------------------------------------------------"
 echo " WAF Demo running against: $TARGET_URL"
+echo " Start time: $DURATION "
 echo " Duration: $DURATION (Ends at $(date -d @$END_TIME))"
 echo "----------------------------------------------------"
 
 
-while [ $(date +%s) -lt $END_TIME ]; do
+while [[ $(date +%s) -lt $END_TIME ]]; do
     for attack in "${!payloads[@]}"; do
         path=${payloads[$attack]}
         full_url="${TARGET_URL}${path}"
@@ -77,9 +78,9 @@ EOF
 # 4. Create the master runner script
 cat <<EOF > /home/$USER_NAME/script/waf_run_all.sh
 #!/bin/bash
-/home/$USER_NAME/script/waf_test.sh https://secure-api.shouvik.dev 1 >> /var/log/wrk/instance1.log 2>&1 &
-/home/$USER_NAME/script/waf_test.sh https://api.shouvik.dev 1 >> /var/log/wrk/instance2.log 2>&1 &
-/home/$USER_NAME/script/waf_test.sh https://insecure-api.shouvik.dev 1 >> /var/log/wrk/instance3.log 2>&1 &
+/home/$USER_NAME/script/waf_test.sh https://secure-api.shouvik.us 1 >> /var/log/wrk/instance1.log 2>&1 &
+/home/$USER_NAME/script/waf_test.sh https://api.shouvik.us 1 >> /var/log/wrk/instance2.log 2>&1 &
+/home/$USER_NAME/script/waf_test.sh https://insecure-api.shouvik.us 1 >> /var/log/wrk/instance3.log 2>&1 &
 /home/$USER_NAME/script/waf_test.sh https://httpbin.shouvik.us 1 >> /var/log/wrk/instance4.log 2>&1 &
 wait
 EOF

@@ -53,9 +53,9 @@ EOF
 # 6. Create the master runner script
 cat <<EOF > /home/$USER_NAME/script/waf_run_all.sh
 #!/bin/bash
-/home/$USER_NAME/script/waf_test_wrk.sh https://secure-api.shouvik.dev 1h >> /var/log/wrk/instance1.log 2>&1 &
-/home/$USER_NAME/script/waf_test_wrk.sh https://api.shouvik.dev 1h >> /var/log/wrk/instance2.log 2>&1 &
-/home/$USER_NAME/script/waf_test_wrk.sh https://insecure-api.shouvik.dev 1h >> /var/log/wrk/instance3.log 2>&1 &
+/home/$USER_NAME/script/waf_test_wrk.sh https://secure-api.shouvik.us 1h >> /var/log/wrk/instance1.log 2>&1 &
+/home/$USER_NAME/script/waf_test_wrk.sh https://api.shouvik.us 1h >> /var/log/wrk/instance2.log 2>&1 &
+/home/$USER_NAME/script/waf_test_wrk.sh https://insecure-api.shouvik.us 1h >> /var/log/wrk/instance3.log 2>&1 &
 /home/$USER_NAME/script/waf_test_wrk.sh https://httpbin.shouvik.us 1h >> /var/log/wrk/instance4.log 2>&1 &
 wait
 EOF
